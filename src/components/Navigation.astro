@@ -1,0 +1,107 @@
+---
+import { personalInfo } from '../data/site-config';
+
+const sections = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'achievements', label: 'Achievements' },
+];
+---
+
+<nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-dark-950">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="text-lg font-semibold text-white">{personalInfo.name}</div>
+      <div class="hidden md:flex gap-8">
+        {sections.map((section) => (
+          <a
+            href={`#${section.id}`}
+            class="text-gray-300 hover:text-primary-400 transition-colors text-sm font-medium"
+          >
+            {section.label}
+          </a>
+        ))}
+      </div>
+      <div class="md:hidden">
+        <button
+          id="menu-toggle"
+          class="text-gray-300 hover:text-primary-400"
+          aria-label="Toggle menu"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden bg-dark-900 border-t border-dark-700"
+  >
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      {sections.map((section) => (
+        <a
+          href={`#${section.id}`}
+          class="block px-3 py-2 rounded-md text-gray-300 hover:text-primary-400 hover:bg-dark-800 transition-colors"
+        >
+          {section.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<style>
+  #navbar {
+    background-color: rgba(1, 12, 23, 1);
+  }
+
+  #navbar.scrolled {
+    background-color: rgba(1, 12, 23, 0.7);
+    backdrop-filter: blur(10px);
+  }
+</style>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
+    }
+  });
+
+  menuToggle?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function (this: HTMLAnchorElement, e: Event) {
+      e.preventDefault();
+      const href = this.getAttribute('href');
+      const target = href ? document.querySelector(href) : null;
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+        mobileMenu?.classList.add('hidden');
+      }
+    });
+  });
+</script>

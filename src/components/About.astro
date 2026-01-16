@@ -1,0 +1,44 @@
+---
+import Icon from './Icons.astro';
+import { aboutItems } from '../data/site-config';
+---
+
+<section id="about" class="py-24 bg-dark-900">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl sm:text-5xl font-bold text-white mb-16 text-center">About Me</h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="text-lg text-gray-300 leading-relaxed space-y-4">
+        <p>
+          I'm a full-stack developer creating beautiful, intuitive digital
+          experiences. With over 5 years of experience, I've had the opportunity to work on
+          diverse projects ranging from member platforms to complex sales applications.
+        </p>
+        <p>
+          My approach combines technical excellence with a deep understanding of user and business needs. I
+          believe in writing clean, maintainable code and continuously learning to stay at the forefront of web  and personal development.
+        </p>
+        <p>
+          Outside of work, you can find me at Makerspace Adelaide teaching and making with new technologies, contributing to
+          local maker scene, or sharing knowledge with the community.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        {aboutItems.map((item) => (
+          <div class="p-6 rounded-lg bg-dark-800 border border-dark-700 hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/10">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 text-primary-400">
+                <Icon name={item.icon.toLowerCase()} size={28} />
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-white mb-2">{item.title}</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

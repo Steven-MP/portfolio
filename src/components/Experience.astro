@@ -1,0 +1,177 @@
+---
+import { getExperience } from '../lib/content-helpers';
+import { render } from 'astro:content';
+import Icon from './Icons.astro';
+
+const experience = await getExperience();
+---
+
+<section id="experience" class="py-24 bg-dark-950">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl sm:text-5xl font-bold text-white mb-16 text-center">Experience</h2>
+
+    <!-- Desktop: Vertical Stack -->
+    <div class="hidden md:block space-y-12">
+      {experience.map(async (job) => {
+        const { Content } = await render(job);
+        return (
+          <div class="relative">
+            <div>
+              <div class="bg-dark-900 p-8 rounded-lg border border-dark-700 hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/10">
+                <div class="flex items-center gap-4 mb-4">
+                  <img src={job.data.companyLogo} alt={job.data.company} class="w-12 h-12 rounded-full object-cover" />
+                  <div>
+                    <h3 class="text-xl font-semibold text-white">{job.data.company}</h3>
+                    <p class="text-primary-400 font-medium">{job.data.role}</p>
+                  </div>
+                </div>
+
+                <p class="text-gray-400 text-sm mb-4">
+                  {job.data.location} • {job.data.startDate} - {job.data.endDate}
+                </p>
+
+                <div class="mb-4 prose prose-invert prose-sm max-w-none">
+                  <h4 class="text-white font-semibold mb-3">Key Achievements</h4>
+                  <Content />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Mobile: Horizontal Scroll -->
+    <div class="md:hidden">
+      <div class="overflow-hidden pb-4">
+        <div class="overflow-x-auto experience-scroll scrollbar-hide" style="scroll-snap-type: x mandatory; scroll-behavior: smooth;">
+          <div class="flex gap-6 w-max px-[calc(50vw-42.5vw)]" data-experience-count={experience.length}>
+        {experience.map(async (job) => {
+          const { Content } = await render(job);
+          return (
+            <div class="experience-card flex-shrink-0 w-[85vw]" style="scroll-snap-align: center;">
+              <div class="bg-dark-900 p-6 rounded-lg border border-dark-700 h-full">
+                <div class="flex items-center gap-4 mb-4">
+                  <img src={job.data.companyLogo} alt={job.data.company} class="w-12 h-12 rounded-full object-cover" />
+                  <div>
+                    <h3 class="text-lg font-semibold text-white">{job.data.company}</h3>
+                    <p class="text-primary-400 font-medium text-sm">{job.data.role}</p>
+                  </div>
+                </div>
+
+                <p class="text-gray-400 text-sm mb-4">
+                  {job.data.location} • {job.data.startDate} - {job.data.endDate}
+                </p>
+
+                <div class="mb-4 prose prose-invert prose-sm max-w-none">
+                  <h4 class="text-white font-semibold mb-3 text-sm">Key Achievements</h4>
+                  <Content />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="flex justify-center gap-4 mt-8">
+        <button
+          id="prevBtn"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-dark-800 text-primary-400 hover:bg-primary-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:hover:bg-dark-800 disabled:hover:text-primary-400 disabled:cursor-not-allowed"
+          aria-label="Previous experience"
+        >
+          <Icon name="chevronLeft" size={20} />
+        </button>
+        <button
+          id="nextBtn"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-dark-800 text-primary-400 hover:bg-primary-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:hover:bg-dark-800 disabled:hover:text-primary-400 disabled:cursor-not-allowed"
+          aria-label="Next experience"
+        >
+          <Icon name="chevronRight" size={20} />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  function initExperienceScroll() {
+    const scrollContainer = document.querySelector('.experience-scroll') as HTMLElement;
+    const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement;
+    const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
+
+    if (!scrollContainer || !prevBtn || !nextBtn) return;
+
+    const cards = Array.from(scrollContainer.querySelectorAll('.experience-card')) as HTMLElement[];
+    const experienceCount = parseInt(scrollContainer.dataset.experienceCount || '0');
+
+    if (cards.length === 0 || experienceCount === 0) return;
+
+    let currentIndex = 0;
+
+    function updateButtons() {
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === experienceCount - 1;
+    }
+
+    function scrollToIndex(index: number) {
+      const targetCard = cards[index];
+      if (targetCard) {
+        scrollContainer.scrollTo({
+          left: targetCard.offsetLeft - 24, // 24px padding
+          behavior: 'smooth'
+        });
+        currentIndex = index;
+        updateButtons();
+      }
+    }
+
+    // Previous button
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        scrollToIndex(currentIndex - 1);
+      }
+    });
+
+    // Next button
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < experienceCount - 1) {
+        scrollToIndex(currentIndex + 1);
+      }
+    });
+
+    // Update button states when user manually scrolls
+    let scrollTimeout: number;
+    scrollContainer.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = window.setTimeout(() => {
+        const scrollLeft = scrollContainer.scrollLeft;
+        const cardWidth = cards[0].offsetWidth + 24; // card width + gap
+        currentIndex = Math.round(scrollLeft / cardWidth);
+        updateButtons();
+      }, 150);
+    });
+
+    // Initial state
+    updateButtons();
+  }
+
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initExperienceScroll);
+  } else {
+    initExperienceScroll();
+  }
+</script>

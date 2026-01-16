@@ -1,0 +1,43 @@
+---
+import Icon from './Icons.astro';
+import { getAchievements } from '../lib/content-helpers';
+
+const achievements = await getAchievements();
+---
+
+<section id="achievements" class="py-24 bg-dark-950">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl sm:text-5xl font-bold text-white mb-16 text-center">Achievements</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+      {achievements.map((achievement) => (
+        <div class="group overflow-hidden rounded-lg border border-dark-700 hover:border-primary-500 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/10 bg-dark-900 p-6 flex flex-col">
+          <div class="relative overflow-hidden h-20 w-20 rounded-lg mb-4 flex-shrink-0">
+            <img
+              src={achievement.data.image}
+              alt={achievement.data.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors">
+            {achievement.data.title}
+          </h3>
+          <p class="text-gray-400 text-sm mb-4 flex-grow">
+            {achievement.data.description}
+          </p>
+          {achievement.data.link && (
+            <a
+              href={achievement.data.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors text-xs font-medium"
+            >
+              Verify
+              <Icon name="externalLink" size={12} />
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

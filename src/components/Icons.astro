@@ -1,0 +1,35 @@
+---
+import {
+  Github,
+  Linkedin,
+  Code,
+  Zap,
+  Users,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+} from '@lucide/astro';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 24, class: className = '' } = Astro.props;
+
+const iconMap = {
+  github: Github,
+  linkedin: Linkedin,
+  code: Code,
+  zap: Zap,
+  users: Users,
+  externalLink: ExternalLink,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+};
+
+const IconComponent = iconMap[name as keyof typeof iconMap] || Code;
+---
+
+<IconComponent size={size} class={className} />

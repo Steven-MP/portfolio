@@ -1,0 +1,39 @@
+---
+import Icon from './Icons.astro';
+import { personalInfo } from '../data/site-config';
+---
+
+<section id="home" class="min-h-screen flex items-center justify-center pt-16 bg-dark-950">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 tracking-tight">
+      {personalInfo.name}
+    </h1>
+    <p class="text-lg sm:text-xl text-primary-400 mb-8 font-medium">
+      {personalInfo.title}
+    </p>
+    <div class="w-24 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto mb-8"></div>
+    <p class="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
+      {personalInfo.description}
+    </p>
+    <div class="flex gap-6 justify-center">
+      <a
+        href={personalInfo.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-dark-800 text-gray-300 hover:bg-primary-600 hover:text-white transition-all duration-300 hover:scale-110"
+        aria-label="GitHub"
+      >
+        <Icon name="github" size={24} />
+      </a>
+      <a
+        href={personalInfo.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-dark-800 text-gray-300 hover:bg-primary-600 hover:text-white transition-all duration-300 hover:scale-110"
+        aria-label="LinkedIn"
+      >
+        <Icon name="linkedin" size={24} />
+      </a>
+    </div>
+  </div>
+</section>
