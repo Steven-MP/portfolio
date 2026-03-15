@@ -30,7 +30,7 @@ const experience = await getExperience();
                   {job.data.location} • {job.data.startDate} - {job.data.endDate}
                 </p>
 
-                <div class="mb-4 prose prose-invert prose-sm max-w-none">
+                <div class="mb-4 experience-content">
                   <h4 class="text-white font-semibold mb-3">Key Achievements</h4>
                   <Content />
                 </div>
@@ -63,7 +63,7 @@ const experience = await getExperience();
                   {job.data.location} • {job.data.startDate} - {job.data.endDate}
                 </p>
 
-                <div class="mb-4 prose prose-invert prose-sm max-w-none">
+                <div class="mb-4 experience-content">
                   <h4 class="text-white font-semibold mb-3 text-sm">Key Achievements</h4>
                   <Content />
                 </div>
@@ -103,6 +103,20 @@ const experience = await getExperience();
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .experience-content :global(ul) {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .experience-content :global(li) {
+    color: rgb(156 163 175); /* gray-400 */
+    font-size: 0.875rem;
+    line-height: 1.5rem;
   }
 </style>
 
