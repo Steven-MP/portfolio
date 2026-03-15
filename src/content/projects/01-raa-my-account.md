@@ -1,7 +1,7 @@
 ---
 title: 'RAA My Account'
 description: 'My Account is RAA''s member portal allowing over 800000 South Australians a single place for information about RAA products and services'
-image: '../../assets/myaccount.png'
+image: '../../assets/myaccount.webp'
 highlights:
   - Auth0 Authentication
   - Account self service updates

@@ -1,7 +1,7 @@
 ---
 title: 'Tapestry'
 description: 'The Tapestry platform is here to intertwine solutions for the challenges facing local tourism, heritage preservation and understanding the dynamics of business activity in regional Australia. This multifaceted solution engages with the younger demographic by providing a rewarding gamified experience to test their knowledge of different regions across Australia.'
-image: '../../assets/tapestry.png'
+image: '../../assets/tapestry.webp'
 highlights:
   - Interactive quiz games
   - User Accounts

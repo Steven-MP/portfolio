@@ -2,9 +2,9 @@
 import Icon from './Icons.astro';
 import { getProjects } from '../lib/content-helpers';
 import { Image } from 'astro:assets';
-import myAccountImage from '../assets/myaccount.png';
-import crocSpotImage from '../assets/croc-spot.png';
-import tapestryImage from '../assets/tapestry.png';
+import myAccountImage from '../assets/myaccount.webp';
+import crocSpotImage from '../assets/croc-spot.webp';
+import tapestryImage from '../assets/tapestry.webp';
 
 const projects = await getProjects();
 
@@ -13,6 +13,9 @@ const imageMap: Record<string, any> = {
   '../../assets/myaccount.png': myAccountImage,
   '../../assets/croc-spot.png': crocSpotImage,
   '../../assets/tapestry.png': tapestryImage,
+  '../../assets/myaccount.webp': myAccountImage,
+  '../../assets/croc-spot.webp': crocSpotImage,
+  '../../assets/tapestry.webp': tapestryImage,
 };
 
 // Replace string paths with actual image imports
@@ -39,12 +42,14 @@ const projectsWithImages = projects.map(project => ({
               <img
                 src={project.data.image}
                 alt={project.data.title}
+                loading="lazy"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
             ) : (
               <Image
                 src={project.data.image}
                 alt={project.data.title}
+                loading="lazy"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 widths={[400, 800]}
                 sizes="(max-width: 768px) 100vw, 400px"
@@ -102,12 +107,14 @@ const projectsWithImages = projects.map(project => ({
                     <img
                       src={project.data.image}
                       alt={project.data.title}
+                      loading="lazy"
                       class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
                     <Image
                       src={project.data.image}
                       alt={project.data.title}
+                      loading="lazy"
                       class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       widths={[400, 800]}
                       sizes="(max-width: 768px) 100vw, 400px"

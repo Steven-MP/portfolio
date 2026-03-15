@@ -1,7 +1,7 @@
 ---
 title: 'Croc-spot'
 description: 'Croc-Spot is an innovative web-based platform designed to enhance crocodile safety in the Northern Territory. It provides real-time monitoring through multiple live streams, AI-powered recognition, and crowd-sourced data. Users interact with live footage, report sightings, and receive timely alerts about crocodile activity in high-risk areas.'
-image: '../../assets/croc-spot.png'
+image: '../../assets/croc-spot.webp'
 highlights:
   - Real-time video stream
   - Custom report generation
