@@ -44,8 +44,8 @@ const experience = await getExperience();
     <!-- Mobile: Horizontal Scroll -->
     <div class="md:hidden">
       <div class="overflow-hidden pb-4">
-        <div class="overflow-x-auto experience-scroll scrollbar-hide" style="scroll-snap-type: x mandatory; scroll-behavior: smooth;">
-          <div class="flex gap-6 w-max px-[calc(50vw-42.5vw)]" data-experience-count={experience.length}>
+        <div class="overflow-x-auto experience-scroll scrollbar-hide" style="scroll-snap-type: x mandatory; scroll-behavior: smooth;" data-experience-count={experience.length}>
+          <div class="flex gap-6 w-max px-[calc(50vw-42.5vw)]">
         {experience.map(async (job) => {
           const { Content } = await render(job);
           return (

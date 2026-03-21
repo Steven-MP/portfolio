@@ -166,14 +166,14 @@ const projectsWithImages = projects.map(project => ({
       <div class="flex justify-center gap-4 mt-8">
         <button
           id="carousel-prev"
-          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-dark-800 text-primary-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-dark-800 text-primary-400 hover:bg-primary-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:hover:bg-dark-800 disabled:hover:text-primary-400 disabled:cursor-not-allowed"
           aria-label="Previous project"
         >
           <Icon name="chevronLeft" size={20} />
         </button>
         <button
           id="carousel-next"
-          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-dark-800 text-primary-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-dark-800 text-primary-400 hover:bg-primary-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:hover:bg-dark-800 disabled:hover:text-primary-400 disabled:cursor-not-allowed"
           aria-label="Next project"
         >
           <Icon name="chevronRight" size={20} />
@@ -190,12 +190,19 @@ const projectsWithImages = projects.map(project => ({
   const nextBtn = document.getElementById('carousel-next');
 
   if (carousel && carouselTrack && prevBtn && nextBtn) {
+    const prev = prevBtn as HTMLButtonElement;
+    const next = nextBtn as HTMLButtonElement;
     const projectCount = carouselTrack.children.length;
     let currentIndex = 0;
 
     const getCardWidth = () => {
       const firstCard = carouselTrack.children[0] as HTMLElement;
       return firstCard ? firstCard.offsetWidth + 24 : 0; // card width + gap
+    };
+
+    const updateButtons = () => {
+      prev.disabled = currentIndex === 0;
+      next.disabled = currentIndex === projectCount - 1;
     };
 
     const scrollToIndex = (index: number, smooth = true) => {
@@ -205,26 +212,27 @@ const projectsWithImages = projects.map(project => ({
         left: scrollPosition,
         behavior: smooth ? 'smooth' : 'auto',
       });
+      currentIndex = index;
+      updateButtons();
     };
 
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + projectCount) % projectCount;
-      scrollToIndex(currentIndex);
+    prev.addEventListener('click', () => {
+      if (currentIndex > 0) scrollToIndex(currentIndex - 1);
     });
 
-    nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % projectCount;
-      scrollToIndex(currentIndex);
+    next.addEventListener('click', () => {
+      if (currentIndex < projectCount - 1) scrollToIndex(currentIndex + 1);
     });
 
     // Handle manual scrolling to update currentIndex
-    let scrollTimeout: number;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
     carousel.addEventListener('scroll', () => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const scrollLeft = carousel.scrollLeft;
         const cardWidth = getCardWidth();
         currentIndex = Math.round(scrollLeft / cardWidth);
+        updateButtons();
       }, 150);
     });
 
