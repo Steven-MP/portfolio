@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "@example/basics",
+      "name": "@portfolio",
       "dependencies": {
         "@lucide/astro": "^0.562.0",
         "@tailwindcss/postcss": "^4.1.18",
